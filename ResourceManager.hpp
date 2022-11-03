@@ -6,28 +6,33 @@ class ResourceManager
 {
     // Twoja implementacja tutaj
     public:
-        ResourceManager() : resource()   {}
-
-        ~ResourceManager(){
-            delete &resource;
+        ResourceManager(){
+            resource = new Resource;
         }
 
-        double get(){
-            return resource.get();
+        ~ResourceManager(){
+            delete resource;
         }
 
         ResourceManager(const ResourceManager& _resource_manager){
-            resource = _resource_manager.resource;
+            resource = new Resource;
+            *resource = *_resource_manager.resource;
         }
 
         ResourceManager operator=(const ResourceManager& _resource_manager){
             if(this != &_resource_manager){
-                resource = _resource_manager.resource;
+                delete resource;
+                resource = new Resource;
+                *resource = *_resource_manager.resource;
             }
 
             return *this;
         }
 
+        double get(){
+            return resource->get();
+        }
+
     private:
-        Resource resource;
+        Resource *resource;
 };
