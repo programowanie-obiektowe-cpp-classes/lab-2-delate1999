@@ -29,6 +29,22 @@ class ResourceManager
             return *this;
         }
 
+        ResourceManager(ResourceManager&& other)
+            : resource(nullptr)
+        {
+            resource = other.resource;
+            other.resource = nullptr;
+        }
+
+        ResourceManager& operator=(ResourceManager&& other){
+            if(this != &other){
+                delete resource;
+                resource = other.resource;
+                other.resource = nullptr;
+            }
+            return *this;
+        }
+
         double get(){
             return resource->get();
         }
